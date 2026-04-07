@@ -64,11 +64,14 @@ are organized and available in the **`03-report/`** directory.
 
 ---
 
-⚠️ Note:
-GitHub PDF preview may not display some images correctly.
-Please download the PDF to view the full report.
 ## Key Takeaways
 - Hands-on experience with network-based intrusion detection systems (IDS)
 - Practical understanding of security monitoring architectures
 - Experience with log collection, centralized storage, and visualization using the EFK stack
 - Improved ability to analyze and interpret security events in a virtual network environment
+
+---
+
+⚠️ Note:
+GitHub PDF preview may not display some images correctly.
+Please download the PDF to view the full report.
