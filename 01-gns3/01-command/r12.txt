@@ -1,0 +1,28 @@
+### ip/디폴트라우팅/OSPF/디폴트게이트웨이광고 설정 ###
+
+conf t
+
+interface fa0/0
+ip address 10.2.10.12 255.255.255.0
+no shutdown
+exit
+
+interface fa0/1
+ip address 10.2.40.12 255.255.255.0
+no shutdown
+exit
+
+interface fa1/0
+ip address 192.168.0.32 255.255.255.0
+no shutdown
+exit
+
+ip route 0.0.0.0 0.0.0.0 192.168.0.1
+
+router ospf 1
+network 10.2.10.0 0.0.0.255 area 0
+network 10.2.40.0 0.0.0.255 area 0
+network 192.168.0.0 0.0.0.255 area 0
+
+default-information originate
+end

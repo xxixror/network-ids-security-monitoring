@@ -1,0 +1,66 @@
+###  메모리 초기화 설정 ###
+
+format flash:
+copy run start
+
+-----
+
+### 서버,방화벽,IDS/ELK 포트 연결 / 미러링 설정 ###
+
+conf t
+
+vlan 2
+name SERVER_NET_10.2.2
+exit
+
+vlan 3
+name SERVER_NET_10.2.3
+exit
+
+vlan 4
+name IDS
+
+int range fa 1/9 - 13 , fa 1/5
+switchport mode access
+switchport access vlan 2
+
+int range fa 1/14 - 15
+switchport mode access
+switchport access vlan 3
+
+int range fa 1/3 - 4
+switchport mode access
+switchport access vlan 4
+
+int range fa 1/1 - 2
+switchport trunk encap dot1Q
+switchport mode trunk
+end
+ 
+conf t
+monitor session 1 source int fa 1/9 - 13 both
+monitor session 1 source int fa 1/14 - 15 both
+monitor session 1 destination int fa 1/5
+
+
+====================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

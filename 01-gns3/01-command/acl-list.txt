@@ -1,0 +1,53 @@
+ip access-list extended acl_inside_in
+  permit ospf any any
+  permit icmp 10.2.0.0 0.0.255.255 any reflect inside
+  permit tcp  10.2.0.0 0.0.255.255 any reflect inside
+  permit udp  10.2.0.0 0.0.255.255 any reflect inside
+
+int fa 0/0
+  ip access-group acl_inside_in in
+
+===========================
+
+ip access-list extended acl_dmz_in
+  evaluate inside
+  evaluate outside
+  deny   ip   10.2.0.0 0.0.7.255 10.2.0.0 0.0.255.255
+  permit ospf any    any
+  permit 112  any                  any
+  permit icmp 10.2.0.0 0.0.7.255 any reflect dmz
+  permit tcp  10.2.0.0 0.0.7.255 any reflect dmz
+  permit udp  10.2.0.0 0.0.7.255 any reflect dmz
+
+int fa 0/1.2
+  ip access-group acl_dmz_in in
+int fa 0/1.3
+  ip access-group acl_dmz_in in
+int fa 0/1.4
+  ip access-group acl_dmz_in in
+
+=========================
+
+ip access-list extended acl_outside_in
+  evaluate inside
+  evaluate dmz
+  permit ospf any    any
+  permit icmp any 10.2.0.0 0.0.7.255 8 reflect outside
+  permit tcp any host 10.2.2.10 eq 53 reflect outside
+  permit tcp any host 10.2.2.11 eq 53 reflect outside
+  permit udp any host 10.2.2.10 eq 53 reflect outside
+  permit udp any host 10.2.2.11 eq 53 reflect outside
+  permit tcp any host 10.2.2.12 eq 80 reflect outside
+  permit tcp any host 10.2.2.12 eq 443 reflect outside
+  permit tcp any host 10.2.2.13 eq 80 reflect outside
+  permit tcp any host 10.2.2.13 eq 443 reflect outside
+  permit tcp any host 10.2.2.14 eq 80 reflect outside
+  permit tcp any host 10.2.2.14 eq 443 reflect outside
+  permit tcp any host 10.2.3.12 eq 80 reflect outside
+  permit tcp any host 10.2.3.12 eq 443 reflect outside
+  permit tcp any host 10.2.3.13 eq 80 reflect outside
+  permit tcp any host 10.2.3.13 eq 443 reflect outside
+  exit
+int fa 1/0
+  ip access-group acl_outside_in in
+
